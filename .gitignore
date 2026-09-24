@@ -48,3 +48,27 @@ private/
 
 # OS
 .DS_Store
+
+# Linux / desktop runtime
+*.pid
+*.socket
+*.lock
+.directory
+.Trash-*
+.local/
+share/
+state/
+
+# Application runtime/state
+.cache/
+.config/*/cache/
+.config/*/logs/
+
+# Package/build artifacts
+*.deb
+*.rpm
+*.AppImage
+
+# Editor temporary files
+*~
+.#*

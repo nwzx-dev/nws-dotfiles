@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
+REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
 SCRIPT_NAME="Debian bootstrap"
 
@@ -34,6 +35,6 @@ while IFS= read -r package; do
     else
         echo "[$SCRIPT_NAME] SKIP: package unavailable: $package"
     fi
-done < "{{ .chezmoi.sourceDir }}/packages/debian.txt"
+done < "$REPO_DIR/packages/debian.txt"
 
 echo "[$SCRIPT_NAME] Complete."

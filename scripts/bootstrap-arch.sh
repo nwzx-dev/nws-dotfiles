@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
+REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
 SCRIPT_NAME="Arch bootstrap"
 
@@ -24,7 +25,7 @@ fi
 
 mapfile -t packages < <(
     grep -vE '^[[:space:]]*(#|$)' \
-        "{{ .chezmoi.sourceDir }}/packages/arch.txt"
+        "$REPO_DIR/packages/arch.txt"
 )
 
 if [[ ${#packages[@]} -eq 0 ]]; then
