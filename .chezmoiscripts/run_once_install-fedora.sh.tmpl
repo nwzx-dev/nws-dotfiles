@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+SCRIPT_NAME="Fedora bootstrap"
+
+if [[ ! -r /etc/os-release ]]; then
+    echo "[$SCRIPT_NAME] SKIP: /etc/os-release not found."
+    exit 0
+fi
+
+source /etc/os-release
+
+if [[ "${ID:-}" != "fedora" ]]; then
+    echo "[$SCRIPT_NAME] SKIP: detected '${ID:-unknown}', expected 'fedora'."
+    exit 0
+fi
+
+echo "[$SCRIPT_NAME] Running on Fedora ${VERSION_ID:-unknown}."
+
+if ! command -v dnf >/dev/null 2>&1; then
+    echo "[$SCRIPT_NAME] ERROR: dnf was not found."
+    exit 1
+fi
+
+while IFS= read -r package; do
+    [[ -z "$package" || "$package" == \#* ]] && continue
+
+    if dnf info "$package" >/dev/null 2>&1; then
+        echo "[$SCRIPT_NAME] Installing: $package"
+        sudo dnf install -y "$package"
+    else
+        echo "[$SCRIPT_NAME] SKIP: package unavailable: $package"
+    fi
+done < "{{ .chezmoi.sourceDir }}/packages/fedora.txt"
+
+echo "[$SCRIPT_NAME] Complete."

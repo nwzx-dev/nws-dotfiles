@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+SCRIPT_NAME="Arch bootstrap"
+
+if [[ ! -r /etc/os-release ]]; then
+    echo "[$SCRIPT_NAME] SKIP: /etc/os-release not found."
+    exit 0
+fi
+
+source /etc/os-release
+
+if [[ "${ID:-}" != "arch" ]]; then
+    echo "[$SCRIPT_NAME] SKIP: detected '${ID:-unknown}', expected 'arch'."
+    exit 0
+fi
+
+echo "[$SCRIPT_NAME] Running on Arch Linux."
+
+if ! command -v pacman >/dev/null 2>&1; then
+    echo "[$SCRIPT_NAME] ERROR: pacman was not found."
+    exit 1
+fi
+
+mapfile -t packages < <(
+    grep -vE '^[[:space:]]*(#|$)' \
+        "{{ .chezmoi.sourceDir }}/packages/arch.txt"
+)
+
+if [[ ${#packages[@]} -eq 0 ]]; then
+    echo "[$SCRIPT_NAME] No packages to install."
+    exit 0
+fi
+
+echo "[$SCRIPT_NAME] Installing Arch packages..."
+
+sudo pacman -Syu --needed --noconfirm "${packages[@]}"
+
+echo "[$SCRIPT_NAME] Complete."

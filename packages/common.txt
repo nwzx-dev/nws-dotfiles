@@ -1,0 +1,14 @@
+git
+curl
+wget
+zsh
+fzf
+ripgrep
+btop
+zoxide
+neovim
+kitty
+jq
+unzip
+zip
+tmux

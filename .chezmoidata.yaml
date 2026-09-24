@@ -1,0 +1,6 @@
+desktop: niri
+shell: zsh
+terminal: kitty
+wm: niri
+bar: DankMaterialShell
+editor: neovim

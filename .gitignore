@@ -1,0 +1,50 @@
+# Secrets
+*.secret
+*.token
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+
+.env
+.env.*
+!.env.example
+
+# SSH / GPG
+.ssh/
+.gnupg/
+
+# Runtime
+.cache/
+*.log
+*.tmp
+*.swp
+
+# Personal data
+Pictures/
+Documents/
+Downloads/
+Desktop/
+Music/
+Videos/
+
+# Browser data
+google-chrome/
+chromium/
+mozilla/
+
+# Development output
+node_modules/
+dist/
+build/
+target/
+__pycache__/
+.venv/
+
+# Local machine data
+machine/
+private/
+
+# OS
+.DS_Store
